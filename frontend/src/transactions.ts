@@ -1,6 +1,6 @@
 import { ethers, Signer } from 'ethers';
 
-const RESOURCES_ADDRESS = '0xC4a0A55A949012B8B52611f4E78cd9e924AE4D45';
+const RESOURCES_ADDRESS = '0x75376c8b1afc6a6d7cd18617cf2ada431d50b3fa';
 
 const RESOURCES_ABI = [
     {
