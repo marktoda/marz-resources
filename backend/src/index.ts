@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import morgan from 'morgan';
 import { errorMiddleware } from './errors';
 import { getTokenMetadata } from './tokens';
@@ -12,6 +13,7 @@ async function main() {
     app.use(errorMiddleware);
     app.use(morgan('combined'))
 
+    app.use('/images', express.static(path.join(__dirname, '../../images')));
     app.get('/token/:id', getTokenMetadata);
 
     console.log(`running server on ${config.port}`);

@@ -41,7 +41,7 @@ export function getTokenMetadata(req: Request, res: Response) {
         external_url: 'https://marz.farm',
         tokenId,
         decimals: 1,
-        image: `https://${req.headers.host}/images/map_tile_${tokenId}.jpg`,
+        image: `https://${req.headers.host}/images/${tokenId}.png`,
         attributes: [
             {
                 trait_type: 'Rarity',

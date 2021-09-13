@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "mars-61ebe"
-  }
+    "default": "mars-61ebe",
+    "marzresources": "marzresources-84ee9"
+  },
+  "targets": {}
 }

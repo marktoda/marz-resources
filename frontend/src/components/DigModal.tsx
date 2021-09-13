@@ -92,15 +92,9 @@ export function DigModal ({ resources, plotId, open, mineCallback, closeCallback
   const classes = useStyles();
   const resourceTiles = resources.map((resource) => 
       <div className={classes.resourceTile}>
-          <div>
-            {RESOURCES[resource].name}
-          </div>
-          <div>
-            Rarity: {RESOURCES[resource].rarity}
-          </div>
+105       <img className={classes.image} src={`https://api.marzmining.xyz/image/${resource}.png`} width={100} height={100} alt={"Mars Resource Preview"} style={{borderColor: 'green'}}/>
       </div>
   );
-
 
   return (
     <Dialog
@@ -133,7 +127,7 @@ export function DigModal ({ resources, plotId, open, mineCallback, closeCallback
           closeCallback();
         }}
       >
-        Claim!
+        Mine!
       </Button>
     </Box>
     </Dialog>
