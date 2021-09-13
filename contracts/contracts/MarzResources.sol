@@ -50,7 +50,7 @@ contract MarzResources is ERC1155Upgradeable {
     //--------------------------------------------------------------------------
     // Public functions
     function initialize(address _marz) external initializer {
-        __ERC1155_init("uri");
+        __ERC1155_init("https://api.marzmining.xyz/token/{id}");
         marz = _marz;
 
         // upgradeable contracts need variables to be set in the initializer
