@@ -92,7 +92,7 @@ export function DigModal ({ resources, plotId, open, mineCallback, closeCallback
   const classes = useStyles();
   const resourceTiles = resources.map((resource) => 
       <div className={classes.resourceTile}>
-105       <img className={classes.image} src={`https://api.marzmining.xyz/images/${resource}.png`} width={100} height={100} alt={"Mars Resource Preview"} style={{borderColor: 'green'}}/>
+        <img className={classes.image} src={`https://api.marzmining.xyz/images/${resource}.png`} width={100} height={100} alt={"Mars Resource Preview"} style={{borderColor: 'green'}}/>
       </div>
   );
 
