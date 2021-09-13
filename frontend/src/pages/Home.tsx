@@ -78,9 +78,13 @@ function Home() {
 
       setTxProcessing(true);
       setSuccessResources(resources);
-      mine(plotId, signer).then(() => {
-        setResources([]);
-        setTxProcessing(false);
+      mine(plotId, signer).then((output) => {
+          if (output) {
+            setResources([]);
+            setTxProcessing(false);
+          }
+      }, (error) => {
+          console.log(error);
       });
   }, [signer, resources]);
 
@@ -122,7 +126,7 @@ function Home() {
             Resources
         </Typography>
     </div>
-    , [tokens, resources, successResources, classes.root, digCallback]);
+    , [tokens, resources, successResources, txProcessing, classes.root, digCallback, mineCallback]);
 }
 
 export default Home;
