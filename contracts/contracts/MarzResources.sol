@@ -45,6 +45,10 @@ contract MarzResources is ERC1155Upgradeable {
     mapping(uint256 => uint256) public startTimes;
     mapping(uint256 => uint256) public claimed;
 
+    string public constant baseURI = "https://api.marzmining.xyz/token/";
+
+    string public name;
+    string public symbol;
     address public marz;
 
     //--------------------------------------------------------------------------
@@ -58,6 +62,8 @@ contract MarzResources is ERC1155Upgradeable {
         UNCOMMON = [ICE, LEAD, BISMUTH, ANTIMONY, LITHIUM, COBALT];
         RARE = [SILVER, GOLD, CHROMIUM, MERCURY, TUNGSTEN];
         INSANE = [BACTERIA, DIAMOND];
+        name = "Marz Resources";
+        symbol = "rMARZ";
     }
 
     /**
@@ -67,13 +73,13 @@ contract MarzResources is ERC1155Upgradeable {
     function getResources(uint256 plotId) public view returns (uint256[] memory resources) {
         uint256 countRand = random(string(abi.encodePacked("COUNT", plotId.toString())));
         uint256 countScore = countRand % 21;
-        uint256 resourceCount = countScore < 12 ? 1 : countScore < 18 ? 2 : countScore < 20 ? 3 : 4; 
+        uint256 resourceCount = countScore < 12 ? 1 : countScore < 18 ? 2 : countScore < 20 ? 3 : 4;
 
         resources = new uint256[](resourceCount);
         for (uint256 i = 0; i < resourceCount; i++) {
             uint256 rarityRand = random(string(abi.encodePacked("RARITY", i, plotId.toString())));
             uint256 rarity = rarityRand % 101;
-    
+
             // ~1% chance you have this
             if (rarity == 100) {
                 resources[i] = INSANE[rarityRand % INSANE.length];
@@ -81,7 +87,7 @@ contract MarzResources is ERC1155Upgradeable {
             //  ~5% chance you have this
             else if (rarity > 95) {
                 resources[i] = RARE[rarityRand % RARE.length];
-            } 
+            }
             // ~15% chance you have this
             else if (rarity > 80) {
                 resources[i] = UNCOMMON[rarityRand % UNCOMMON.length];
@@ -136,6 +142,10 @@ contract MarzResources is ERC1155Upgradeable {
             }
             _mintBatch(owner, resources, amounts, "");
         }
+    }
+
+    function uri(uint256 tokenId) public view override returns (string memory) {
+        return string(abi.encodePacked(baseURI, tokenId.toString()));
     }
 
     function random(string memory input) internal pure returns (uint256) {
