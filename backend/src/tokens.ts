@@ -38,7 +38,7 @@ export function getTokenMetadata(req: Request, res: Response) {
     const output: TokenMetadata = {
         name,
         description,
-        external_url: 'https://marz.farm',
+        external_url: 'https://marzmining.xyz',
         tokenId,
         decimals: 1,
         image: `https://${req.headers.host}/images/${tokenId}.png`,

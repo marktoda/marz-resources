@@ -1,6 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
-import { Signer } from 'ethers';
 import { Divider, createStyles, makeStyles, Theme, Typography } from "@material-ui/core";
 import {QueryResult, useQuery} from "@apollo/client";
 import Web3Context from '../contexts/Web3Context';
@@ -8,6 +7,7 @@ import { GET_TOKENS, UserTokens } from "../queries/token";
 import { Plots } from '../components/Plots/Plots';
 import { getResources, mine } from '../transactions';
 import { DigModal } from '../components/DigModal';
+import { SuccessModal } from '../components/SuccessModal';
 
 const useStyles = makeStyles((inputTheme: Theme) => createStyles({
   root: {
@@ -43,18 +43,14 @@ const useStyles = makeStyles((inputTheme: Theme) => createStyles({
   }
 }));
 
-function dig(plotId: number): void {
-    console.log('digging');
-}
-
 function Home() {
   const classes = useStyles();
   const [tokens, setTokens] = useState<number[]>([]);
   const { address, signer } = useContext(Web3Context);
-  const [text, setText] = useState('');
   const [txProcessing, setTxProcessing] = useState<boolean>(false);
   const [digPlot, setDigPlot] = useState<number>(-1);
   const [resources, setResources] = useState<number[]>([]);
+  const [successResources, setSuccessResources] = useState<number[]>([]);
 
   const {
     loading,
@@ -80,11 +76,13 @@ function Home() {
           return;
       }
 
+      setTxProcessing(true);
+      setSuccessResources(resources);
       mine(plotId, signer).then(() => {
-          setResources([]);
+        setResources([]);
+        setTxProcessing(false);
       });
-      console.log(`mining ${plotId}`);
-  }, [signer]);
+  }, [signer, resources]);
 
   useEffect(() => {
     const ownedTokenIds = data?.owners[0]?.ownedTokens.map((token) => parseInt(token.id, 16));
@@ -103,6 +101,13 @@ function Home() {
             mineCallback={mineCallback}
             closeCallback={() => setResources([])}
         />
+        <SuccessModal
+            plotId={digPlot}
+            open={successResources.length > 0}
+            loading={txProcessing}
+            resources={successResources}
+            closeCallback={() => setSuccessResources([])}
+        />
 
         <Typography variant="h5" style={{ textAlign: 'center' }}>
             Plots
@@ -117,7 +122,7 @@ function Home() {
             Resources
         </Typography>
     </div>
-    , [tokens, resources, classes.root]);
+    , [tokens, resources, successResources, classes.root, digCallback]);
 }
 
 export default Home;

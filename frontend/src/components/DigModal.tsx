@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { Box, Button, createStyles, Dialog, makeStyles, TextField, Theme } from "@material-ui/core";
-import { RESOURCES } from '../resources';
+import { Box, Button, createStyles, Dialog, makeStyles, Theme } from "@material-ui/core";
 
 const useStyles = makeStyles((inputTheme: Theme) => createStyles({
   root: {
@@ -90,8 +89,8 @@ interface DigModalProps {
 
 export function DigModal ({ resources, plotId, open, mineCallback, closeCallback }: DigModalProps) {
   const classes = useStyles();
-  const resourceTiles = resources.map((resource) => 
-      <div className={classes.resourceTile}>
+  const resourceTiles = resources.map((resource, i) => 
+      <div key={`${resource}-${i}`} className={classes.resourceTile}>
         <img className={classes.image} src={`https://api.marzmining.xyz/images/${resource}.png`} width={100} height={100} alt={"Mars Resource Preview"} style={{borderColor: 'green'}}/>
       </div>
   );
