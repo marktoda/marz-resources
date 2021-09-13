@@ -62,6 +62,11 @@ describe('MarzResources:construction', () => {
     const tokenId = 0
     expect(await resources.claimed(tokenId)).to.eq(0)
   })
+
+  it('should get the proper uri', async function () {
+    const { resources } = await setupContracts()
+    expect(await resources.uri(5)).to.eq('https://api.marzmining.xyz/token/5')
+  })
 })
 
 describe('MarzResources:getResources', () => {
