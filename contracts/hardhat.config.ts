@@ -8,6 +8,7 @@ import '@openzeppelin/hardhat-upgrades'
 import './tasks/accounts'
 import './tasks/clean'
 import './tasks/deployers'
+import './tasks/upgrade'
 
 import { resolve } from 'path'
 

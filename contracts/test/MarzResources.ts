@@ -67,6 +67,83 @@ describe('MarzResources:construction', () => {
     const { resources } = await setupContracts()
     expect(await resources.uri(5)).to.eq('https://api.marzmining.xyz/token/5')
   })
+
+  it('should get the proper name', async function () {
+    const { resources } = await setupContracts()
+    expect(await resources.name()).to.eq('Marz Resources')
+  })
+
+  it('should get the proper symbol', async function () {
+    const { resources } = await setupContracts()
+    expect(await resources.symbol()).to.eq('rMARZ')
+  })
+})
+
+describe('MarzResources:upgrade', () => {
+    async function setupUpgrade(): Promise<TestContext> {
+        const accounts = await ethers.getSigners()
+        const deployer = accounts[0]
+
+        const user = accounts[1]
+
+        const mockNFTFactory = await ethers.getContractFactory('MockMarz')
+        const marz = <MockMarz>await upgrades.deployProxy(mockNFTFactory, [], {
+            initializer: 'initialize()',
+        })
+
+        const factory = await ethers.getContractFactory('MarzResources01')
+        const resources = await upgrades.deployProxy(
+            factory,
+            [marz.address],
+            {
+                initializer: 'initialize(address)',
+            },
+        )
+        const newFactory = await ethers.getContractFactory('MarzResources')
+        const newResources = <MarzResources>await upgrades.upgradeProxy(resources.address, newFactory);
+
+        return {
+            accounts,
+            deployer,
+            user,
+            marz,
+            resources: newResources,
+        }
+    }
+
+  it('should have correct marz address', async function () {
+    const { marz, resources } = await setupUpgrade()
+    expect(await resources.marz()).to.eq(marz.address)
+  })
+
+  it('should have 0 for initial start times', async function () {
+    const { marz, user, resources } = await setupUpgrade()
+    await marz.connect(user).mint()
+    const tokenId = 0
+    expect(await resources.startTimes(tokenId)).to.eq(0)
+  })
+
+  it('should have 0 for initial claimed', async function () {
+    const { marz, user, resources } = await setupUpgrade()
+    await marz.connect(user).mint()
+    const tokenId = 0
+    expect(await resources.claimed(tokenId)).to.eq(0)
+  })
+
+  it('should get the proper uri', async function () {
+    const { resources } = await setupUpgrade()
+    expect(await resources.uri(5)).to.eq('https://api.marzmining.xyz/token/5')
+  })
+
+  it('should get the proper name', async function () {
+    const { resources } = await setupUpgrade()
+    expect(await resources.name()).to.eq('Marz Resources')
+  })
+
+  it('should get the proper symbol', async function () {
+    const { resources } = await setupUpgrade()
+    expect(await resources.symbol()).to.eq('rMARZ')
+  })
 })
 
 describe('MarzResources:getResources', () => {
