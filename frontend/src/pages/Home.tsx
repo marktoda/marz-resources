@@ -3,7 +3,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Divider, createStyles, makeStyles, Theme, Typography } from "@material-ui/core";
 import {QueryResult, useQuery} from "@apollo/client";
 import Web3Context from '../contexts/Web3Context';
-import { GET_TOKENS, UserTokens } from "../queries/token";
+import { GET_TOKENS, Tokens } from "../queries/token";
 import { Plots } from '../components/Plots/Plots';
 import { getResources, mine } from '../transactions';
 import { DigModal } from '../components/DigModal';
@@ -56,7 +56,7 @@ function Home() {
     loading,
     error,
     data,
-  }: QueryResult<UserTokens> = useQuery<UserTokens>(GET_TOKENS, { variables: { address }});
+  }: QueryResult<Tokens> = useQuery<Tokens>(GET_TOKENS, { variables: { address }});
 
   const digCallback = useCallback((plotId) => {
       if (!signer) {
@@ -89,7 +89,7 @@ function Home() {
   }, [signer, resources]);
 
   useEffect(() => {
-    const ownedTokenIds = data?.owners[0]?.ownedTokens.map((token) => parseInt(token.id, 16));
+    const ownedTokenIds = data?.tokens?.map((token) => parseInt(token.id, 16));
     if(ownedTokenIds && ownedTokenIds.length) {
       ownedTokenIds.sort((a, b) => a - b);
       setTokens(ownedTokenIds);

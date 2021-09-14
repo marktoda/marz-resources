@@ -1,23 +1,17 @@
 import { gql } from '@apollo/client';
 
-export interface UserTokens {
-  owners: Owner[];
-}
-
-export interface OwnedToken {
+export interface Token {
     id: string;
 }
 
-export interface Owner {
-    ownedTokens: OwnedToken[];
+export interface Tokens {
+    tokens: Token[];
 }
 
 export const GET_TOKENS = gql`
   query getUserTokens($address: ID!) {
-      owners(first: 5, where: { id: $address }) {
-          ownedTokens {
-              id
-          }
+      tokens(first: 1000, where: { owner: $address }) {
+          id
       }
   }
 `;
