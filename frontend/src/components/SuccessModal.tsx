@@ -78,7 +78,7 @@ export function SuccessModal ({ plotId, resources, open, loading, closeCallback 
   const resourceTiles = resources.map((resource, i) => 
   <div key={`${resource}-${i}`} className={classes.resourceTile}>
       <a href={`https://opensea.io/assets/0x75376c8b1afc6a6d7cd18617cf2ada431d50b3fa/${resource}`}>
-          <img className={classes.image} src={`https://api.marzmining.xyz/images/${resource}.png`} width={100} height={100} alt={"Mars Resource Preview"} style={{borderColor: 'green'}}/>
+          <img className={classes.image} src={`https://api.marzmining.xyz/images/${resource}.jpg`} width={100} height={100} alt={"Mars Resource Preview"} style={{borderColor: 'green'}}/>
       </a>
   </div>
   );
