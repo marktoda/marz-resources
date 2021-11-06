@@ -41,7 +41,7 @@ export function getTokenMetadata(req: Request, res: Response) {
         external_url: 'https://marzmining.xyz',
         tokenId,
         decimals: 1,
-        image: `https://${req.headers.host}/images/${tokenId}.png`,
+        image: `https://${req.headers.host}/images/${tokenId}.jpg`,
         attributes: [
             {
                 trait_type: 'Rarity',
